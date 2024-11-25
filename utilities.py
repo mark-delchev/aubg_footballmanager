@@ -40,10 +40,15 @@ def generate_skill_level():
     return randint(0, 100)
 
 
+def add_players(player_class, count, players_list):
+    for _ in range(count):
+        players_list.append(player_class())
+
+
 def generate_random_position(total_players):
     # Absolute counts for each position
     remaining_slots = {
-        "Goalkeeper": floor(total_players / 10),
+        "Goalkeeper": floor(total_players / 100),
         "Defender": ceil(total_players / 3),
         "Midfielder": ceil(total_players / 3),
         "Attacker": floor(total_players / 4),

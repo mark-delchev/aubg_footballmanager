@@ -2,10 +2,13 @@ import csv
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from math import floor
 
 import team
-from player import Player
+from player import Player, Attacker, Midfielder, Defender, Goalkeeper
 from team import Team
+from utilities import add_players
+
 
 class FootballManagerApp:
     def __init__(self, root):
@@ -38,7 +41,13 @@ class FootballManagerApp:
         label = tk.Label(self.root, text="Select 11 players (1 of them a goalkeeper)", font=("Arial", 16))
         label.pack(pady=20)
         players_to_display = 22
-        players = [Player(total_players=players_to_display) for _ in range(players_to_display)]
+        players = []
+        add_players(Attacker, (players_to_display // 5), players)
+        add_players(Midfielder, floor(players_to_display / 2.5), players)
+        add_players(Defender, floor(players_to_display / 2.5), players)
+        add_players(Goalkeeper, players_to_display // 11, players)
+        #players = [Player(total_players=players_to_display) for _ in range(players_to_display)]
+
         position_order = {"Attacker": 0, "Midfielder": 1, "Defender": 2, "Goalkeeper": 3}
         sorted_players = sorted(players, key=lambda p: position_order[p.position])
         # Create a frame for the grid

@@ -11,3 +11,24 @@ class Player:
 
     def __str__(self):
         return f"{self.name} ({self.position}, Skill: {self.skill_level})"
+
+
+# Child classes to make sure a certain amount of player positions are generated
+class Goalkeeper(Player):
+    def __init__(self, name=None, skill_level=None):
+        super().__init__(name=name, position="Goalkeeper", skill_level=skill_level)
+
+
+class Defender(Player):
+    def __init__(self, name=None, skill_level=None):
+        super().__init__(name=name, position="Defender", skill_level=skill_level)
+
+
+class Midfielder(Player):
+    def __init__(self, name=None, skill_level=None):
+        super().__init__(name=name, position="Midfielder", skill_level=skill_level)
+
+
+class Attacker(Player):
+    def __init__(self, name=None, skill_level=None):
+        super().__init__(name=name, position="Attacker", skill_level=skill_level)
