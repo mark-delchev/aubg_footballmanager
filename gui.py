@@ -1,13 +1,11 @@
 import csv
 import tkinter as tk
+
 from tkinter import ttk
 from tkinter import messagebox
-from math import floor
-
-import team
-from player import Player, Attacker, Midfielder, Defender, Goalkeeper
+from player import Player
 from team import Team
-from utilities import add_players, generate_team_players, sort_players
+from utilities import generate_team_players, sort_players
 
 
 class FootballManagerApp:
@@ -73,7 +71,7 @@ class FootballManagerApp:
         label = tk.Label(self.root, text="Your team:", font=("Arial", 16))
         label.pack(pady=20)
 
-        with open("selected_players.csv", 'r') as file:
+        with open("selected_players.csv", 'r', encoding="utf-8") as file:
             reader = csv.DictReader(file)
             # Read all rows from CSV, create Player objects, and get the first 11 players
             players = [Player(row['Name'], row['Position'], row['Skill']) for row in reader]
@@ -143,7 +141,7 @@ You selected {len(selected_players)}.")
             messagebox.showwarning("Save failed", f"Exactly 1 goalkeeper must be selected. \
 You selected {len(goalkeepers)}.")
         if not selection_error:
-            with open("selected_players.csv", "w", newline="") as csvfile:
+            with open("selected_players.csv", mode="w", encoding="utf-8", newline="") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(["Name", "Position", "Skill"])  # Replace with actual attributes
                 for player in selected_players:

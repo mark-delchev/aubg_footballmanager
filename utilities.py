@@ -1,9 +1,8 @@
 import csv
-import random
 import player
 
 from math import floor, ceil
-from random import randint, choices
+from random import randint, choices, choice
 
 
 # File with helper functions
@@ -26,7 +25,7 @@ last_names_list = load_names_from_csv('last_names.csv')
 
 
 def generate_name():
-    player_name = random.choice(first_names_list) + " " + random.choice(last_names_list)
+    player_name = choice(first_names_list) + " " + choice(last_names_list)
     return player_name
 
 
