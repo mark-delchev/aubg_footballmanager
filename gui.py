@@ -7,7 +7,7 @@ from math import floor
 import team
 from player import Player, Attacker, Midfielder, Defender, Goalkeeper
 from team import Team
-from utilities import add_players
+from utilities import add_players, generate_team_players, sort_players
 
 
 class FootballManagerApp:
@@ -28,7 +28,7 @@ class FootballManagerApp:
         btn_view_teams.pack(pady=5)
 
         # Button to load selected players from csv file
-        btn_view_matches = ttk.Button(frame, text="Load Players", command=self.view_matches)
+        btn_view_matches = ttk.Button(frame, text="Load Players", command=self.load_players)
         btn_view_matches.pack(pady=5)
 
         # Button to quit
@@ -40,20 +40,11 @@ class FootballManagerApp:
         self.clear_window()
         label = tk.Label(self.root, text="Select 11 players (1 of them a goalkeeper)", font=("Arial", 16))
         label.pack(pady=20)
-        players_to_display = 22
-        players = []
-        add_players(Attacker, (players_to_display // 5), players)
-        add_players(Midfielder, floor(players_to_display / 2.5), players)
-        add_players(Defender, floor(players_to_display / 2.5), players)
-        add_players(Goalkeeper, players_to_display // 11, players)
-        #players = [Player(total_players=players_to_display) for _ in range(players_to_display)]
-
-        position_order = {"Attacker": 0, "Midfielder": 1, "Defender": 2, "Goalkeeper": 3}
-        sorted_players = sorted(players, key=lambda p: position_order[p.position])
+        players = generate_team_players(22)
+        sorted_players = sort_players(players)
         # Create a frame for the grid
         grid_frame = tk.Frame(self.root)
         grid_frame.pack(pady=10, padx=10)
-
         # Define the number of columns
         num_columns = 2
         for index, player in enumerate(sorted_players):
@@ -75,14 +66,11 @@ class FootballManagerApp:
         btn_back = ttk.Button(self.root, text="Back to Main Menu", command=self.create_main_menu)
         btn_back.pack(pady=10)
 
-    def view_matches(self):
-        """
-        Placeholder function for viewing matches.
-        """
+    def load_players(self):
         # Clear the current window
         self.clear_window()
 
-        label = tk.Label(self.root, text="Match details will be displayed here.", font=("Arial", 16))
+        label = tk.Label(self.root, text="Your team:", font=("Arial", 16))
         label.pack(pady=20)
 
         with open("selected_players.csv", 'r') as file:
@@ -129,8 +117,6 @@ class FootballManagerApp:
         label.pack(pady=5)
         label = tk.Label(self.root, text=f"Defense: {team.defense}", font=("Arial", 11))
         label.pack(pady=5)
-
-
 
     def clear_window(self):
         """

@@ -1,8 +1,8 @@
 import csv
 import random
+import player
 
 from math import floor, ceil
-import tkinter as tk
 from faker import Faker
 from transliterate import translit
 from random import randint, choices
@@ -32,7 +32,6 @@ first_names_list = load_first_names_from_csv('first_names.csv')
 def generate_name():
     player_name = random.choice(first_names_list) + " " + fake.last_name_male()
     player_name = translit(player_name, 'bg', reversed=True)
-    # print(player_name)
     return player_name
 
 
@@ -48,7 +47,7 @@ def add_players(player_class, count, players_list):
 def generate_random_position(total_players):
     # Absolute counts for each position
     remaining_slots = {
-        "Goalkeeper": floor(total_players / 100),
+        "Goalkeeper": floor(total_players / 10),
         "Defender": ceil(total_players / 3),
         "Midfielder": ceil(total_players / 3),
         "Attacker": floor(total_players / 4),
@@ -66,4 +65,16 @@ def generate_random_position(total_players):
     return choices(available_positions, k=1)[0]
 
 
+def generate_team_players(players_to_display):
+    players = []
+    add_players(player.Attacker, (players_to_display // 5), players)
+    add_players(player.Midfielder, floor(players_to_display / 2.5), players)
+    add_players(player.Defender, floor(players_to_display / 2.5), players)
+    add_players(player.Goalkeeper, players_to_display // 11, players)
+    return players
 
+
+def sort_players(player_lst):
+    position_order = {"Attacker": 0, "Midfielder": 1, "Defender": 2, "Goalkeeper": 3}
+    sorted_players = sorted(player_lst, key=lambda p: position_order[p.position])
+    return sorted_players
