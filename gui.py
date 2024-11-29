@@ -13,7 +13,7 @@ class FootballManagerApp:
         self.root = root
         self.root.title("Football Manager")
         self.player_check_states = {}
-        # Example navigation: Main menu
+        # Navigation: Main menu
         self.create_main_menu()
 
     def create_main_menu(self):
@@ -21,7 +21,7 @@ class FootballManagerApp:
         frame = tk.Frame(self.root)
         frame.pack(pady=20, padx=20)
 
-        # Button to select players
+        # Button to select players from a list of 22
         btn_view_teams = ttk.Button(frame, text="Select Players", command=self.select_players)
         btn_view_teams.pack(pady=5)
 
@@ -115,6 +115,9 @@ class FootballManagerApp:
         label.pack(pady=5)
         label = tk.Label(self.root, text=f"Defense: {team.defense}", font=("Arial", 11))
         label.pack(pady=5)
+
+        btn_quit = ttk.Button(self.root, text="Quit", command=self.root.quit)
+        btn_quit.pack(pady=30)
 
     def clear_window(self):
         """
