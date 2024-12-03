@@ -1,7 +1,7 @@
 import csv
 import tkinter as tk
 
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from tkinter import messagebox
 from player import Player
 from team import Team
@@ -71,7 +71,17 @@ class FootballManagerApp:
         label = tk.Label(self.root, text="Your team:", font=("Arial", 16))
         label.pack(pady=20)
 
-        with open("selected_players.csv", 'r', encoding="utf-8") as file:
+        file_path = filedialog.askopenfilename(
+            title="Select Player File",
+            filetypes=(("CSV files", "*.csv"), ("All files", "*.*"))
+        )
+
+        if not file_path:  # If no file is selected, stop the function
+            label = tk.Label(self.root, text="No file selected.", font=("Arial", 12), fg="red")
+            label.pack(pady=20)
+            return
+
+        with open(file_path, 'r', encoding="utf-8") as file:
             reader = csv.DictReader(file)
             # Read all rows from CSV, create Player objects, and get the first 11 players
             players = [Player(row['Name'], row['Position'], row['Skill']) for row in reader]
@@ -144,14 +154,25 @@ You selected {len(selected_players)}.")
             messagebox.showwarning("Save failed", f"Exactly 1 goalkeeper must be selected. \
 You selected {len(goalkeepers)}.")
         if not selection_error:
-            with open("selected_players.csv", mode="w", encoding="utf-8", newline="") as csvfile:
+            # Open a save file dialog
+            file_path = filedialog.asksaveasfilename(
+                title="Save Selected Players",
+                defaultextension=".csv",
+                filetypes=(("CSV files", "*.csv"), ("All files", "*.*"))
+            )
+
+            if not file_path:  # If the user cancels the dialog
+                messagebox.showinfo("Save Cancelled", "No file was saved.")
+                return
+
+            with open(file_path, mode="w", encoding="utf-8", newline="") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(["Name", "Position", "Skill"])  # Replace with actual attributes
                 for player in selected_players:
                     writer.writerow([player.name, player.position, player.skill_level])
 
             messagebox.showinfo("Save successful", f"Saved 11 players (including 1 goalkeeper) \
-to 'selected_players.csv'.")
+to {file_path}.")
             messagebox.showinfo("Continue", "After this click on back to menu and load \
 your save file")
 
