@@ -59,6 +59,7 @@ def generate_random_position(total_players):
     return choices(available_positions, k=1)[0]
 
 
+# Function that generates a determined proportion of players to be displayed in select_players method
 def generate_team_players(players_to_display):
     players = []
     add_players(player.Attacker, (players_to_display // 5), players)
@@ -68,6 +69,7 @@ def generate_team_players(players_to_display):
     return players
 
 
+# Sort players top to bottom from Attacker to Goalkeeper
 def sort_players(player_lst):
     position_order = {"Attacker": 0, "Midfielder": 1, "Defender": 2, "Goalkeeper": 3}
     sorted_players = sorted(player_lst, key=lambda p: position_order[p.position])
